@@ -87,7 +87,7 @@ def main() -> None:
     parser.add_argument(
         "--duration-ms",
         type=int,
-        default=350,
+        default=700,
         help="Frame duration in milliseconds",
     )
     parser.add_argument(
