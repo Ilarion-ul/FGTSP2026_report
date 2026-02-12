@@ -1,0 +1,2 @@
+Main results:   "photons_above5MeV_per_electron_from_run_summary" and "neutrons_model_exit_per_electron_from_run_summary" from particle_yields_per_electron.json
+Important images: h2_neutron_exit_side_surface plate_neutron_heatmap, photon_source_spectrum_log, photon_source_spectrum_4p5_30, neutron_source_spectrum_linear, h1_niel_plate, h1_gas_he_plate. 
