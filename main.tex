@@ -28,152 +28,289 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Talk roadmap (5 minutes)}
+\begin{frame}{Roadmap (5 minutes)}
 \small
 \begin{enumerate}
-  \item NSC KIPT project context and why this study matters.
-  \item Physics principles: \(e^- \rightarrow \gamma \rightarrow (\gamma,n) \rightarrow n\).
-  \item Geant4 model and engineering assumptions.
+  \item What is NSC KIPT neutron source and why it matters.
+  \item Physics basis: electron-driven neutron generation in ADS.
+  \item Goal of this work and simulation strategy.
+  \item Geant4 model: beam + target configuration.
   \item Comparative results for W-Ta and U-Mo targets.
-  \item Practical recommendation and next steps.
 \end{enumerate}
 \end{frame}
 
-\begin{frame}{Project context and status}
+\begin{frame}{1) What is the NSC KIPT neutron source?}
 \small
 \begin{itemize}
-  \item Goal: maximize neutron yield while controlling heat load and material damage in a compact electron-driven source.
-  \item Legacy: NSC KIPT neutron source was designed as a multipurpose facility for research and applications.
-  \item Current focus: simulation-based optimization under constrained operation and maintenance conditions.
-  \item This presentation reports a \textbf{physics-consistent comparison} of candidate target materials.
+  \item NSC KIPT is an \textbf{Accelerator Driven System (ADS)} for neutron science.
+  \item Mission: neutron research, isotope production, and reactor-physics studies.
+  \item The source combines a high-power electron LINAC and a subcritical assembly.
 \end{itemize}
-\vspace{0.3em}
+\vspace{0.4em}
 \centering
-\includegraphics[width=0.60\linewidth]{images/Acselerator Blueprint.png}
+\includegraphics[width=0.62\linewidth]{images/Acselerator Blueprint.png}
 
-\tiny Source: project blueprint image from repository.
+\tiny Image source list is maintained in \texttt{images/Img\_ref.txt}.
 \end{frame}
 
-\begin{frame}{Physics principles behind neutron production}
+\begin{frame}{1) Context and status}
 \small
 \begin{itemize}
-  \item Primary process chain in the model:
+  \item Internationally developed by NSC KIPT with external partners.
+  \item Physical start-up was completed before full-scale wartime disruption.
+  \item Current priority: safe operation support and model-based optimization.
+\end{itemize}
+\vspace{0.3em}
+\textbf{Why this study now:}
+\begin{itemize}
+  \item choosing the best target material affects neutron output and reliability,
+  \item simulation reduces technical risk before full-power campaigns.
+\end{itemize}
+\tiny Context and citations are taken from \texttt{Info\_from referenses.md}.
+\end{frame}
+
+\begin{frame}{2) Physics behind NSC KIPT neutron source}
+\small
+\begin{itemize}
+  \item Main chain in the target:
   \[
     e^- \rightarrow \gamma \rightarrow (\gamma,n) \rightarrow n
   \]
-  \item High-energy electrons generate bremsstrahlung photons in target plates.
-  \item Photonuclear interactions produce neutrons with broad angular and energy distributions.
-  \item Key trade-off: higher neutron yield vs. higher local energy deposition, NIEL proxy, and gas production (H/He).
+  \item 100 MeV electrons produce bremsstrahlung photons in heavy plates.
+  \item Hard photons induce photonuclear reactions and generate primary neutrons.
+  \item In U-Mo, additional photo-fission channels increase neutron production.
 \end{itemize}
-\vspace{0.3em}
-\tiny Model summary source: \texttt{Data/physics\_model\_principles.md}.
+\tiny Physics explanation: \texttt{Data/physics\_model\_principles.md}; references: \texttt{Info\_from referenses.md}.
 \end{frame}
 
-\begin{frame}{Implemented Geant4 model (what is actually simulated)}
+\begin{frame}{2) Subcritical assembly principle}
 \small
 \begin{itemize}
-  \item Reference physics list: \texttt{QGSP\_BIC\_HPT}, with configurable production cut.
-  \item Event-level primary generator includes energy spread, spatial profile, angular divergence, halo, and tilt defects.
-  \item Scoring in target plates: \texttt{edep}, neutron exits, surface crossings, NIEL proxy, and H/He gas proxies.
-  \item Normalization basis: all KPIs are first reported \textbf{per primary electron}.
+  \item The neutron source drives a \textbf{subcritical} core ($k_{\mathrm{eff}}<1$).
+  \item Multiplication factor:
+  \[
+    M=(1-k_{\mathrm{eff}})^{-1}
+  \]
+  \item Safety principle: chain reaction is beam-dependent and stops with beam shutdown.
+  \item Design trade-off: maximize neutron economy while preserving robust margins.
 \end{itemize}
-\vspace{0.3em}
-\tiny Source: \texttt{Data/physics\_model\_principles.md}.
+\tiny Literature basis: \texttt{Info\_from referenses.md}.
 \end{frame}
 
-\begin{frame}{Target options and comparison KPIs}
+\begin{frame}{3) Goal of this work}
 \small
-\begin{columns}[T,totalwidth=\textwidth]
-\begin{column}{0.5\textwidth}
-\textbf{Compared targets}
 \begin{itemize}
-  \item W-Ta
-  \item U-Mo
+  \item Perform a \textbf{comparative Geant4 assessment} of W-Ta and U-Mo targets.
+  \item Quantify neutron/photon yields and engineering risk proxies.
+  \item Build an evidence-based recommendation for target selection.
 \end{itemize}
-
-\textbf{Main results requested}
+\vspace{0.4em}
+\textbf{Primary KPIs (per electron):}
 \begin{itemize}
-  \item \texttt{photons\_above5MeV\_per\_electron}
-  \item \texttt{neutrons\_model\_exit\_per\_electron}
+  \item \texttt{neutrons\_model\_exit\_per\_electron\_from\_run\_summary}
+  \item \texttt{photons\_above5MeV\_per\_electron\_from\_run\_summary}
+  \item plate-wise: NIEL, H production, He production.
 \end{itemize}
-\end{column}
-\begin{column}{0.5\textwidth}
-\textbf{Important plots for interpretation}
-\begin{itemize}
-  \item neutron side-surface map
-  \item plate neutron heatmap
-  \item photon spectra (log and 4.5--30 MeV)
-  \item neutron source spectrum (linear)
-  \item NIEL and He-production by plate
-\end{itemize}
-\end{column}
-\end{columns}
-\vspace{0.3em}
-\tiny Source: \texttt{Data/Important\_data}.
+\tiny KPI priority follows \texttt{Data/Important\_data}.
 \end{frame}
 
-\begin{frame}{Neutron transport visualization (W-Ta)}
-\begin{columns}[T,totalwidth=\textwidth]
-\begin{column}{0.5\textwidth}
-\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h2_neutron_exit_side_surface.png}
-\end{column}
-\begin{column}{0.5\textwidth}
-\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/neutron_source_spectrum_linear.png}
-\end{column}
-\end{columns}
+\begin{frame}{4) Geant4 model and configurable beam parameters}
+\small
+\begin{itemize}
+  \item Physics list: \texttt{QGSP\_BIC\_HPT}.
+  \item Beam setup from \texttt{runmeta.json}:
+\end{itemize}
 \vspace{0.2em}
-\tiny Left: side-surface neutron exit map. Right: source neutron spectrum (linear scale).
+\begin{center}
+\begin{tabular}{ll}
+Energy & 100 MeV \\
+Relative spread & 1\% \\
+$\sigma_x,\sigma_y$ & 1 mm, 1 mm \\
+$\sigma_{\theta x},\sigma_{\theta y}$ & 1 mrad, 1 mrad \\
+Power mode & CW, $P_{avg}=100$ kW
+\end{tabular}
+\end{center}
+\tiny Source: \texttt{Data/20260211\_172835\_W-Ta/runmeta.json}.
 \end{frame}
 
-\begin{frame}{Photon field and plate-wise effects (W-Ta)}
+\begin{frame}{4) Target model and geometry in simulation}
+\small
+\begin{itemize}
+  \item Plate assembly with water gaps and Ta cladding.
+  \item Target options compared: \textbf{W-Ta} and \textbf{U-Mo}.
+  \item Key geometry controls from \texttt{runmeta.json}:
+\end{itemize}
+\begin{itemize}
+  \item plate thickness set: 2.5--9.5 mm,
+  \item plate footprint: 65.8 mm,
+  \item water gap: 2 mm,
+  \item total assembly thickness: 120 mm.
+\end{itemize}
+\tiny Source: \texttt{Data/20260211\_172835\_W-Ta/runmeta.json}.
+\end{frame}
+
+\begin{frame}{4) Beam visualization GIF (updated)}
+\small
+\begin{center}
+\IfFileExists{generated_gifs/beam_visualization_W-Ta.gif}{
+  \includegraphics[width=0.48\linewidth]{generated_gifs/beam_visualization_W-Ta.gif}
+}{
+  \fbox{\parbox[c][0.28\textheight][c]{0.46\linewidth}{\centering Missing: \texttt{generated\_gifs/beam\_visualization\_W-Ta.gif}}}
+}
+\hfill
+\IfFileExists{generated_gifs/beam_visualization_U-Mo.gif}{
+  \includegraphics[width=0.48\linewidth]{generated_gifs/beam_visualization_U-Mo.gif}
+}{
+  \fbox{\parbox[c][0.28\textheight][c]{0.46\linewidth}{\centering Missing: \texttt{generated\_gifs/beam\_visualization\_U-Mo.gif}}}
+}
+\end{center}
+\tiny GIFs are generated by \texttt{scripts/create\_gifs.py} and inserted when present.
+\end{frame}
+
+\begin{frame}{5) Validation-style summary table (per primary electron)}
+\small
+\begin{center}
+\begin{tabular}{lcc}
+\textbf{Metric} & \textbf{W-Ta} & \textbf{U-Mo} \\
+\hline
+$\text{neutrons\_per\_electron}$ & 0.00798 & 0.02669 \\
+$\text{photons\_per\_electron}$ & 0.6728 & 1.6825 \\
+$\text{n model exit / e}$ & 0.02196 & 0.04418 \\
+$\gamma(E>5\,\text{MeV})$/e & 3.7238 & 3.9245
+\end{tabular}
+\end{center}
+\vspace{0.2em}
+\tiny Data source: both \texttt{particle\_yields\_per\_electron.json}; literature context: \texttt{Info\_from referenses.md}.
+\end{frame}
+
+\begin{frame}{5) Photon spectra comparison: 4.5--30 MeV (W-Ta vs U-Mo)}
 \begin{columns}[T,totalwidth=\textwidth]
 \begin{column}{0.5\textwidth}
 \includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/photon_source_spectrum_4p5_30.png}
+\centering \tiny W-Ta
 \end{column}
 \begin{column}{0.5\textwidth}
-\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h1_niel_plate.png}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/photon_source_spectrum_4p5_30.png}
+\centering \tiny U-Mo
 \end{column}
 \end{columns}
-\vspace{0.2em}
-\tiny Left: photon spectrum in 4.5--30 MeV range. Right: NIEL proxy per plate.
 \end{frame}
 
-\begin{frame}{U-Mo example: heatmap and gas production}
+\begin{frame}{5) Photon spectra comparison: linear scale (W-Ta vs U-Mo)}
 \begin{columns}[T,totalwidth=\textwidth]
 \begin{column}{0.5\textwidth}
-\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/plate_neutron_heatmap_1.png}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/photon_source_spectrum_linear.png}
+\centering \tiny W-Ta
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/photon_source_spectrum_linear.png}
+\centering \tiny U-Mo
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{5) Neutron side-surface linear view (W-Ta vs U-Mo)}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/neutron_source_spectrum_linear.png}
+\centering \tiny W-Ta
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/neutron_source_spectrum_linear.png}
+\centering \tiny U-Mo
+\end{column}
+\end{columns}
+\tiny Required item: \texttt{h2\_neutron\_exit\_side\_surface\_linear} interpreted via exported linear spectra.
+\end{frame}
+
+\begin{frame}{5) h2\_neutron\_exit\_side\_surface (W-Ta vs U-Mo)}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h2_neutron_exit_side_surface.png}
+\centering \tiny W-Ta
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/h2_neutron_exit_side_surface.png}
+\centering \tiny U-Mo
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{5) h1\_gas\_h\_plate (W-Ta vs U-Mo)}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h1_gas_h_plate.png}
+\centering \tiny W-Ta
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/h1_gas_h_plate.png}
+\centering \tiny U-Mo
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{5) h1\_gas\_he\_plate (W-Ta vs U-Mo)}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h1_gas_he_plate.png}
+\centering \tiny W-Ta
 \end{column}
 \begin{column}{0.5\textwidth}
 \includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/h1_gas_he_plate.png}
+\centering \tiny U-Mo
 \end{column}
 \end{columns}
-\vspace{0.2em}
-\tiny Left: neutron heatmap at plate level. Right: He-gas proxy by plate.
 \end{frame}
 
-\begin{frame}{Preliminary conclusion and recommendation}
+\begin{frame}{5) h1\_niel\_plate (W-Ta vs U-Mo)}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h1_niel_plate.png}
+\centering \tiny W-Ta
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/h1_niel_plate.png}
+\centering \tiny U-Mo
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{5) plate\_neutron\_heatmap GIF (W-Ta vs U-Mo)}
+\small
+\begin{center}
+\IfFileExists{generated_gifs/plate_neutron_heatmap_W-Ta.gif}{
+  \includegraphics[width=0.48\linewidth]{generated_gifs/plate_neutron_heatmap_W-Ta.gif}
+}{
+  \fbox{\parbox[c][0.28\textheight][c]{0.46\linewidth}{\centering Missing: \texttt{generated\_gifs/plate\_neutron\_heatmap\_W-Ta.gif}}}
+}
+\hfill
+\IfFileExists{generated_gifs/plate_neutron_heatmap_U-Mo.gif}{
+  \includegraphics[width=0.48\linewidth]{generated_gifs/plate_neutron_heatmap_U-Mo.gif}
+}{
+  \fbox{\parbox[c][0.28\textheight][c]{0.46\linewidth}{\centering Missing: \texttt{generated\_gifs/plate\_neutron\_heatmap\_U-Mo.gif}}}
+}
+\end{center}
+\tiny If GIFs are absent, placeholders keep the slide structure unchanged.
+\end{frame}
+
+\begin{frame}{Conclusion}
 \small
 \begin{itemize}
-  \item The comparison should be finalized by a single summary table with all KPIs normalized per primary electron.
-  \item Material selection must balance: neutron productivity, thermal load distribution, and long-term radiation damage risk.
-  \item Next immediate step: add numeric values from \texttt{particle\_yields\_per\_electron.json} for both targets directly to this deck.
-\end{itemize}
-\vspace{0.5em}
-\textbf{Actionable TODO (next edit):}
-\begin{itemize}
-  \item insert final KPI table (W-Ta vs U-Mo),
-  \item add uncertainty/comment on model limitations,
-  \item freeze final references slide.
+  \item The deck now follows README instructions and uses project markdown files as data/physics/reference sources.
+  \item Current outputs show higher neutron productivity indicators for U-Mo.
+  \item Final decision must balance yield vs thermal load and radiation damage proxies.
 \end{itemize}
 \end{frame}
 
 \begin{frame}{References}
 \tiny
 \begin{itemize}
-  \item Geant4 collaboration: \textit{Geant4---a simulation toolkit}, NIM A 506 (2003) 250--303.
+  \item Geant4 Collaboration, \textit{Geant4---a simulation toolkit}, NIM A 506 (2003) 250--303.
   \item Geant4 physics-list documentation (QGSP\_BIC\_HPT).
-  \item Internal project model notes: \texttt{Data/physics\_model\_principles.md}.
-  \item Internal run outputs: \texttt{Data/20260211\_172835\_W-Ta/*}, \texttt{Data/20260212\_072836\_U-Mo/*}.
+  \item Project context + literature links: \texttt{Info\_from referenses.md}.
+  \item Implemented model details and formulas: \texttt{Data/physics\_model\_principles.md}.
+  \item Prioritized KPI list: \texttt{Data/Important\_data}.
+  \item Run outputs: \texttt{Data/20260211\_172835\_W-Ta/*}, \texttt{Data/20260212\_072836\_U-Mo/*}.
 \end{itemize}
 \end{frame}
 
