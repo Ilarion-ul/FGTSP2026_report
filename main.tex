@@ -1,30 +1,25 @@
 % !TEX program = xelatex
 \documentclass[aspectratio=169,10pt]{beamer}
 
-% Тема і стилі
-\usetheme{metropolis} % мінімалістично і читабельно
+\usetheme{metropolis}
 \usefonttheme{professionalfonts}
 
-% Українська мова і шрифти
 \usepackage{polyglossia}
-\setdefaultlanguage{ukrainian}
+\setdefaultlanguage{english}
 \usepackage{fontspec}
-% Оберіть один з наявних шрифтів у вашій системі:
 \setmainfont{Arial}
 \setsansfont{Arial}
 \setmonofont{Courier New}
 
-% Базові пакети
 \usepackage{amsmath, amssymb, physics}
 \usepackage{graphicx}
 \usepackage{siunitx}
 \sisetup{detect-all}
 
-% Метадані
-\title{Детектор JUNO (Підземна нейтринна обсерваторія Цзяньмень)}
-\subtitle{Курс: Сучасні проблеми у фізиці високих енергій}
-\author{Улич Іларіон}
-\institute{КНУ імені Тараса Шевченка}
+\title{Comparative Assessment of Spallation Target Materials}
+\subtitle{Neutron Source NSC KIPT: A Geant4 Simulation Study}
+\author{Ilarion Ulych}
+\institute{Taras Shevchenko National University of Kyiv}
 \date{\today}
 
 \begin{document}
@@ -33,369 +28,153 @@
   \titlepage
 \end{frame}
 
+\begin{frame}{Talk roadmap (5 minutes)}
+\small
+\begin{enumerate}
+  \item NSC KIPT project context and why this study matters.
+  \item Physics principles: \(e^- \rightarrow \gamma \rightarrow (\gamma,n) \rightarrow n\).
+  \item Geant4 model and engineering assumptions.
+  \item Comparative results for W-Ta and U-Mo targets.
+  \item Practical recommendation and next steps.
+\end{enumerate}
+\end{frame}
 
-% Слайд 2 — Наукова мотивація (без зображення)
-\begin{frame}{Навіщо JUNO? Наукова мотивація}
+\begin{frame}{Project context and status}
 \small
 \begin{itemize}
-  \item \textbf{Порядок мас нейтрино (NMO/IMO):} на середній базі $\sim$53\,км
-    інтерференційні модуляції в спектрі реакторних $\bar{\nu}_e$
-    дають чутливість $>\!3\sigma$ за кілька років акумуляції даних.
-  \item \textbf{Прецизійна осциляційна метрика:} уточнення $\theta_{12}$,
-    $\Delta m^2_{21}$, $\Delta m^2_{ee}$ до субвідсоткових рівнів; суворий контроль
-    енергомасштабу через калібрування і \emph{dual calorimetry}.
-  \item \textbf{Астро- та геофізика:} сонячні нейтрино (pep, $^7$Be, CNO),
-    геонейтрино (тепловий баланс Землі), DSNB, \textit{core-collapse} наднові
-    (тисячі подій на 10\,кпк з часово-енергетичним профілем).
-  \item \textbf{Синергія та валідація:} детектор-«еталон» TAO для
-    незалежної перевірки форми реакторного спектра; поєднання з іншими
-    експериментами для глобальних фітів параметрів.
+  \item Goal: maximize neutron yield while controlling heat load and material damage in a compact electron-driven source.
+  \item Legacy: NSC KIPT neutron source was designed as a multipurpose facility for research and applications.
+  \item Current focus: simulation-based optimization under constrained operation and maintenance conditions.
+  \item This presentation reports a \textbf{physics-consistent comparison} of candidate target materials.
+\end{itemize}
+\vspace{0.3em}
+\centering
+\includegraphics[width=0.60\linewidth]{images/Acselerator Blueprint.png}
+
+\tiny Source: project blueprint image from repository.
+\end{frame}
+
+\begin{frame}{Physics principles behind neutron production}
+\small
+\begin{itemize}
+  \item Primary process chain in the model:
+  \[
+    e^- \rightarrow \gamma \rightarrow (\gamma,n) \rightarrow n
+  \]
+  \item High-energy electrons generate bremsstrahlung photons in target plates.
+  \item Photonuclear interactions produce neutrons with broad angular and energy distributions.
+  \item Key trade-off: higher neutron yield vs. higher local energy deposition, NIEL proxy, and gas production (H/He).
+\end{itemize}
+\vspace{0.3em}
+\tiny Model summary source: \texttt{Data/physics\_model\_principles.md}.
+\end{frame}
+
+\begin{frame}{Implemented Geant4 model (what is actually simulated)}
+\small
+\begin{itemize}
+  \item Reference physics list: \texttt{QGSP\_BIC\_HPT}, with configurable production cut.
+  \item Event-level primary generator includes energy spread, spatial profile, angular divergence, halo, and tilt defects.
+  \item Scoring in target plates: \texttt{edep}, neutron exits, surface crossings, NIEL proxy, and H/He gas proxies.
+  \item Normalization basis: all KPIs are first reported \textbf{per primary electron}.
+\end{itemize}
+\vspace{0.3em}
+\tiny Source: \texttt{Data/physics\_model\_principles.md}.
+\end{frame}
+
+\begin{frame}{Target options and comparison KPIs}
+\small
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\textbf{Compared targets}
+\begin{itemize}
+  \item W-Ta
+  \item U-Mo
+\end{itemize}
+
+\textbf{Main results requested}
+\begin{itemize}
+  \item \texttt{photons\_above5MeV\_per\_electron}
+  \item \texttt{neutrons\_model\_exit\_per\_electron}
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\textbf{Important plots for interpretation}
+\begin{itemize}
+  \item neutron side-surface map
+  \item plate neutron heatmap
+  \item photon spectra (log and 4.5--30 MeV)
+  \item neutron source spectrum (linear)
+  \item NIEL and He-production by plate
+\end{itemize}
+\end{column}
+\end{columns}
+\vspace{0.3em}
+\tiny Source: \texttt{Data/Important\_data}.
+\end{frame}
+
+\begin{frame}{Neutron transport visualization (W-Ta)}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h2_neutron_exit_side_surface.png}
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/neutron_source_spectrum_linear.png}
+\end{column}
+\end{columns}
+\vspace{0.2em}
+\tiny Left: side-surface neutron exit map. Right: source neutron spectrum (linear scale).
+\end{frame}
+
+\begin{frame}{Photon field and plate-wise effects (W-Ta)}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/photon_source_spectrum_4p5_30.png}
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260211_172835_W-Ta/h1_niel_plate.png}
+\end{column}
+\end{columns}
+\vspace{0.2em}
+\tiny Left: photon spectrum in 4.5--30 MeV range. Right: NIEL proxy per plate.
+\end{frame}
+
+\begin{frame}{U-Mo example: heatmap and gas production}
+\begin{columns}[T,totalwidth=\textwidth]
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/plate_neutron_heatmap_1.png}
+\end{column}
+\begin{column}{0.5\textwidth}
+\includegraphics[width=\linewidth]{Data/20260212_072836_U-Mo/h1_gas_he_plate.png}
+\end{column}
+\end{columns}
+\vspace{0.2em}
+\tiny Left: neutron heatmap at plate level. Right: He-gas proxy by plate.
+\end{frame}
+
+\begin{frame}{Preliminary conclusion and recommendation}
+\small
+\begin{itemize}
+  \item The comparison should be finalized by a single summary table with all KPIs normalized per primary electron.
+  \item Material selection must balance: neutron productivity, thermal load distribution, and long-term radiation damage risk.
+  \item Next immediate step: add numeric values from \texttt{particle\_yields\_per\_electron.json} for both targets directly to this deck.
+\end{itemize}
+\vspace{0.5em}
+\textbf{Actionable TODO (next edit):}
+\begin{itemize}
+  \item insert final KPI table (W-Ta vs U-Mo),
+  \item add uncertainty/comment on model limitations,
+  \item freeze final references slide.
 \end{itemize}
 \end{frame}
 
-
-% Слайд 3 — Локація та базова ідея (дві колонки: текст + фото Xinhua)
-\begin{frame}{Локація та базова ідея експерименту}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \begin{itemize}
-      \item Розташування: м.~Кайпін (Цзяньмень), пров.~Гуандун; $\sim$53~км до АЕС Янцзян і Тайшань.
-      \item Підземний зал під $\sim$700~м граніту ($\sim$1800~m.w.e.) для суттєвого зменшення космічного фону.
-      \item Ідея: точна спектрометрія реакторних $\bar{\nu}_e$ на середній базі для визначення порядку мас і прецизійних параметрів осциляцій.
-    \end{itemize}
-  \end{column}
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      \includegraphics[width=0.95\linewidth]{img/20241011ded9ce33e8304c1ea1125fa92b2143dc_44c23efaf2634f8fa8fcb9636f597a9b.jpg}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):} An aerial drone photo shows ground facilities of the Jiangmen Underground Neutrino Observatory (JUNO) in Jiangmen, south China's Guangdong Province, Oct.~10,~2024. (Xinhua/Jin~Liwang)
-
-    \tiny \textbf{Атрибуція (укр.):} Фото: Xinhua / Jin~Liwang (аерозйомка, 10~жовтня~2024)
-  \end{column}
-\end{columns}
+\begin{frame}{References}
+\tiny
+\begin{itemize}
+  \item Geant4 collaboration: \textit{Geant4---a simulation toolkit}, NIM A 506 (2003) 250--303.
+  \item Geant4 physics-list documentation (QGSP\_BIC\_HPT).
+  \item Internal project model notes: \texttt{Data/physics\_model\_principles.md}.
+  \item Internal run outputs: \texttt{Data/20260211\_172835\_W-Ta/*}, \texttt{Data/20260212\_072836\_U-Mo/*}.
+\end{itemize}
 \end{frame}
-
-% Слайд 4 — Архітектура детектора (дві колонки: текст + панорама Xinhua)
-\begin{frame}{Архітектура детектора}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \begin{itemize}
-      \item \textbf{Центральний детектор:} акрилова сфера $\varnothing$~35.4\,м з $\sim$20\,кт рідкого сцинтилятора (LAB).
-      \item \textbf{Опорна конструкція:} сталева просторова ферма $\varnothing$~40.1\,м.
-      \item \textbf{Водяний пул:} циліндр $\varnothing$~43.5\,м, висота $\sim$44\,м (Чернковський veto й радіаційний захист).
-      \item \textbf{Призначення:} максимізувати світлозбір та однорідність відповіді для досягнення $\sim 3\%\!/\!\sqrt{E(\mathrm{МеВ})}$.
-    \end{itemize}
-  \end{column}
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби замініть файл на інший з тієї ж серії, якщо цей кадр не є панорамою центрального детектора:
-      \includegraphics[width=0.95\linewidth]{img/202410117c1bdcf9e8fc4830a0027c7ab2f69aa0_XxjwshE007061_20241011_CBMFN0A002.jpg}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):} This stitched photo shows the central detector of the Jiangmen Underground Neutrino Observatory (JUNO) under construction in Jiangmen, south China's Guangdong Province, Oct. 9, 2024. (Xinhua/Jin Liwang)
-
-    \tiny \textbf{Атрибуція (укр.):} Фото: Xinhua / Jin~Liwang (центральний детектор, 9~жовтня~2024)
-  \end{column}
-\end{columns}
-\end{frame}
-
-
-% Слайд 5 — Фотосенсори та оптичне покриття (дві колонки: текст + фото Xinhua)
-\begin{frame}{Фотосенсори та оптичне покриття}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \begin{itemize}
-      \item \textbf{Large PMT (20"):} 17\,612 шт. з високою квантовою ефективністю — основний світлозбір.
-      \item \textbf{Small PMT (3"):} 25\,600 шт. у проміжках — \emph{dual calorimetry} для незалежної оцінки енергії.
-      \item \textbf{Сумарне покриття:} $\sim$78\% внутрішньої поверхні — ключ до цілі $\sim 3\%\!/\!\sqrt{E(\mathrm{МеВ})}$.
-      \item \textbf{Переваги:} краща лінеарність/динамічний діапазон, контроль систематик енергомасштабу.
-    \end{itemize}
-  \end{column}
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби підмініть файл на інший кадр монтажу PMT з вашого архіву:
-      \includegraphics[width=0.95\linewidth]{img/20241011ded9ce33e8304c1ea1125fa92b2143dc_0988e1fca42b44dda9164d4d5ea5d43b.jpg}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):} Staff members install photo-multiplier tubes of the central detector of the Jiangmen Underground Neutrino Observatory (JUNO) in Jiangmen, south China's Guangdong Province, Oct. 9, 2024. (Xinhua/Jin Liwang)
-
-    \tiny \textbf{Атрибуція (укр.):} Фото: Xinhua / Jin~Liwang (монтаж ФПТ, 9~жовтня~2024)
-  \end{column}
-\end{columns}
-\end{frame}
-
-% Слайд 6 — Енергетична роздільна здатність (дві колонки: текст + фото Xinhua)
-\begin{frame}{Цільова енергетична роздільна здатність}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \begin{itemize}
-      \item \textbf{Ціль:} $\sim 3\%\!/\!\sqrt{E(\mathrm{МеВ})}$ при $E=1$~МеВ.
-      \item \textbf{Ключові фактори:} світловіддача LS ($\gtrsim 1200$ p.e./МеВ), довжина поглинання, QE та часова характеристика PMT, однорідність оптики.
-      \item \textbf{Стабільність енергомасштабу:} нелінійність $<1\%$ завдяки багато-точковому калібруванню.
-      \item \textbf{Dual calorimetry:} незалежні вимірювання енергії LPMT+SPMT для контролю систематик і динамічного діапазону.
-      \item \textbf{Практичний наслідок:} чутливість до тонких осциляційних модуляцій у спектрі реакторних $\bar{\nu}_e$.
-    \end{itemize}
-  \end{column}
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби підмініть на інший робочий кадр із вашого архіву серії Xinhua (2024-10-09/10)
-      \includegraphics[width=0.95\linewidth]{img/20241011ded9ce33e8304c1ea1125fa92b2143dc_27c9920ab9944318a312031c19009a98.jpg}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):}A staff member works beside the water tank of the central detector of the Jiangmen Underground Neutrino Observatory (JUNO) in Jiangmen, south China's Guangdong Province, Oct. 9, 2024. (Xinhua/Jin Liwang)
-
-    \tiny \textbf{Атрибуція (укр.):} Фото: Xinhua / Jin~Liwang (експериментальний зал, 9~жовтня~2024)
-  \end{column}
-\end{columns}
-\end{frame}
-
-% Слайд 7 — Канали реєстрації (дві колонки: текст + фото Xinhua)
-\begin{frame}{Канали реєстрації в JUNO}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \textbf{Основний для реакторних $\bar{\nu}_e$: інверсний бета-розпад (IBD)}
-    \[
-      \bar{\nu}_e + p \rightarrow e^+ + n
-    \]
-    \begin{itemize}
-      \item \emph{Prompt}: енергія позитрона + анігіляція $\gamma$; $E_{\text{vis}}\!\approx\!E_{\nu}-0.78$\,МеВ.
-      \item \emph{Delayed}: захоплення нейтрона на H $\rightarrow$ $\sim$2.2\,МеВ $\gamma$; \textit{затримана збіговість} зменшує фон.
-    \end{itemize}
-
-    \vspace{0.6em}
-    \textbf{Пружне розсіяння на електронах (eES)}
-    \begin{itemize}
-      \item Чутливість до напрямку; чистий канал для сонячних нейтрино.
-    \end{itemize}
-  \end{column}
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби замініть файл на інший робочий кадр із вашого архіву серії Xinhua (2024-10-09/10):
-      \includegraphics[width=0.95\linewidth]{img/IBD.png}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption:} Inverse Beta Decay reaction of the antielectron neutrino.Li, Teng \& Xia, Xin \& Huang, Xingtao \& Zou, JiaHeng \& Li, WeiDong \& Lin, Tao \& Zhang, Kun \& Deng, ZiYan. (2017). Design and Development of JUNO Event Data Model. Chinese Physics C. 41. 10.1088/1674-1137/41/6/066201. 
-    \tiny \textbf{Атрибуція (укр.):}  Схема зі статті: DOI:10.1088/1674-1137/41/6/066201
-  \end{column}
-\end{columns}
-\end{frame}
-
-% Слайд 7 — Канали реєстрації (дві колонки: текст + фото Xinhua)
-\begin{frame}{Канали реєстрації в JUNO}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    
-    
-    \vspace{0.3em}
-    \textbf{Пружне розсіяння на протонах (pES)}
-    \begin{itemize}
-      \item Ключове для спалаху наднової; флейвор-незалежний внесок, з урахуванням гасіння світла (quenching).
-    \end{itemize}
-
-    \vspace{0.3em}
-    \textbf{Взаємодії на $^{12}$C (CC/NC)}
-    \begin{itemize}
-      \item Де-експітаційні $\gamma$/β-сигнали як додаткові канали ідентифікації подій SN.
-    \end{itemize}
-
-  \end{column}
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби замініть файл на інший робочий кадр із вашого архіву серії Xinhua (2024-10-09/10):
-      \includegraphics[width=0.95\linewidth]{img/pES.png}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):} Neutron is a composit particle, made up of proton and electron. 10.13140/RG.2.2.18369.10080.
-
-    \tiny \textbf{Атрибуція (укр.):} Схема зі статті: DOI:10.13140/RG.2.2.18369.10080.
-  \end{column}
-\end{columns}
-\end{frame}
-
-% Слайд 9 — Калібрування
-\begin{frame}{Калібрування енергії та роль детектора TAO}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \textbf{Калібрування центрального детектора}
-    \begin{itemize}
-      \item Багатоточкові розгортки радіоактивних джерел (осьові/радіальні траєкторії) для просторової однорідності.
-      \item Лазер/LED-пульсери: контроль посилення PMT, часової стабільності й нелінійності енергомасштабу.
-      \item Природні та індуковані еталони: захоплення $n$ на H ($\gamma$ 2.2 МеВ), космогенні лінії, внутрішні $\gamma$-фони.
-    \end{itemize}
-  \end{column}
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби підмініть файл на інший «робочий кадр» із вашого архіву серії Xinhua (2024-10-09/10)
-      \includegraphics[width=0.95\linewidth]{img/20241011ded9ce33e8304c1ea1125fa92b2143dc_e1d05047730d4ef79657ced4b87903f9.jpg}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):} Staff members install photo-multiplier tubes of the central detector of the Jiangmen Underground Neutrino Observatory (JUNO) in Jiangmen, south China's Guangdong Province, Oct. 10, 2024. (Xinhua/Jin Liwang)
-    
-    \tiny \textbf{Атрибуція (укр.):} Фото: Xinhua / Jin~Liwang (експериментальний зал, 10~жовтня~2024)
-  \end{column}
-\end{columns}
-\end{frame}
-
-
-% Слайд 9 — Калібрування
-\begin{frame}{Роль детектора TAO}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \vspace{0.6em}
-    \textbf{Детектор TAO (Taishan Antineutrino Observatory)}
-    \begin{itemize}
-      \item Компактний «near»-детектор біля реактора; \emph{висока} енергетична роздільна здатність ($<\!2\%$ @ 1 МеВ).
-      \item Модель-незалежне вимірювання форми реакторного спектра $\Rightarrow$ зменшення систематик у JUNO.
-      \item Синергія: спільні фіти форми спектра, перевірка стабільності енергомасштабу та нелінійностей.
-    \end{itemize}
-  \end{column}
-
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби підмініть файл на інший «робочий кадр» із вашого архіву серії Xinhua (2024-10-09/10)
-      \includegraphics[width=0.95\linewidth]{img/TAO.png}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption:}  Conceptual design of the TAO detector, which consists of a central detector with the LS neutrino target and a buffer liquid, a calibration system, an outer shielding, and a veto system. (Xinhua/Jin~Liwang)
-
-    \tiny \textbf{Атрибуція (укр.):} Схема зі статті:  https://doi.org/10.3390/instruments6040050
-  \end{column}
-\end{columns}
-\end{frame}
-
-% Слайд 10 — Очікувана чутливість (дві колонки: текст + фото Xinhua)
-\begin{frame}{Очікувана чутливість JUNO}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \textbf{Порядок мас нейтрино}
-    \begin{itemize}
-      \item Чутливість $>\!3\sigma$ за $\sim$6 років номінальної роботи
-            за умови досягнення $\sim 3\%\!/\!\sqrt{E(\mathrm{МеВ})}$ і стабільного енергомасштабу.
-    \end{itemize}
-    \vspace{0.1em}
-    \textbf{Астро- та геофізика}
-    \begin{itemize}
-      \item \textbf{Наднова (10 кпк):} $\mathcal{O}(5{,}000)$ IBD + додаткові eES/pES та на $^{12}$C.
-      \item \textbf{Геонейтрино:} найточніше на сьогодні вимірювання з $\sim$10\% невизначеністю за $\sim$6 років.
-      \item \textbf{DSNB:} довгострокова чутливість у складі глобальної програми.
-    \end{itemize}
-
-    \vspace{0.1em}
-  \end{column}
-
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби підмініть на інший кадр із вашого архіву серії Xinhua (2024-10-09/10)
-      \includegraphics[width=0.95\linewidth]{img/20241011ded9ce33e8304c1ea1125fa92b2143dc_df892b681ba045718025a0ac73252403.jpg}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):} A staff member inspects the acrylic sphere inside the central detector of the Jiangmen Underground Neutrino Observatory (JUNO) in Jiangmen, south China's Guangdong Province, Oct. 9, 2024. (Xinhua/Jin Liwang)
-
-    \tiny \textbf{Атрибуція (укр.):} Фото: Xinhua / Jin~Liwang (експериментальний зал, 9~жовтня~2024)
-  \end{column}
-\end{columns}
-\end{frame}
-
-% Слайд 11 — Статус проєкту (2024–2025) — дві колонки: текст + фото Xinhua
-\begin{frame}{Статус проєкту (2024–2025)}
-\small
-\begin{columns}[T,totalwidth=\textwidth]
-  \begin{column}{0.42\textwidth}
-    \begin{itemize}
-      \item \textbf{26 серпня 2025~р.:} завершене заповнення рідкого сцинтилятора (LS)
-            та \textbf{старт набору даних} (пуско-налагоджувальна фаза з розширеним калібруванням).
-      \item \textbf{Експлуатаційний горизонт:} багаторічна програма з пріоритетом на
-            порядок мас і прецизійні осциляційні параметри; розширені астро-/геофізичні спостереження
-            (сонячні, геонейтрино, SN, DSNB).
-    \end{itemize}
-  \end{column}
-
-  \begin{column}{0.58\textwidth}
-    \begin{figure}
-      \centering
-      % За потреби замініть на інший доречний кадр з вашого архіву серії Xinhua (2024-10-09/10):
-      \includegraphics[width=0.95\linewidth]{img/20241011ded9ce33e8304c1ea1125fa92b2143dc_8f86be23e5e7428680eb49f45937a064.jpg}
-    \end{figure}
-    \vspace{-0.5em}
-    \tiny \textbf{Caption (Xinhua, EN):} Wang Yifang (L), chief scientist of the Jiangmen Underground Neutrino Observatory (JUNO) and head of the Institute of High Energy Physics (IHEP) of the CAS, talks with his colleague at an experiment hall in Jiangmen, south China's Guangdong Province, Oct. 10, 2024. (Xinhua/Jin Liwang)
-
-    \tiny \textbf{Атрибуція (укр.):} Фото: Xinhua / Jin~Liwang (експериментальний зал, 9~жовтня~2024)
-  \end{column}
-\end{columns}
-\end{frame}
-
-% Слайд 12 — Висновки і перспективи (дві колонки: текст + фото Xinhua)
-\begin{frame}{Висновки і перспективи}
-    \begin{itemize}
-      \item \textbf{Чому JUNO важливий:} середня база $\sim$53\,км і 20\,кт LS
-            забезпечують чутливість до порядку мас та субвідсоткову прецизію осциляційних параметрів.
-      \item \textbf{Технічний успіх:} високе оптичне покриття ($\sim$78\%), \emph{dual calorimetry},
-            просторово-енергетичне калібрування.
-      \item \textbf{Широка фізична програма:} сонячні, геонейтрино, наднові, DSNB; довгострокові серії даних.
-      \item \textbf{Синергія:} еталонний \textit{near}-детектор TAO + глобальні фіти з іншими експериментами.
-      \item \textbf{Перспективи:} подальше зниження систематик, розширення аналізів сигналів SN/DSNB,
-            відкриті дані та міждисциплінарні застосування методів реконструкції.
-    \end{itemize}
-\end{frame}
-
-% Слайд 14 — Джерела та література (автопереноси при переповненні)
-\begin{frame}[allowframebreaks]{Джерела та література}
-\footnotesize
-
-\textbf{Огляди та технічні документи JUNO}
-\begin{enumerate}
-  \item F.~An \textit{et al.} (JUNO Coll.), \emph{Neutrino Physics with JUNO}, J. Phys. G \textbf{43} (2016) 030401. \href{https://arxiv.org/abs/1507.05613}{arXiv:1507.05613}
-  \item A.~Abusleme \textit{et al.} (JUNO Coll.), \emph{JUNO Physics and Detector}, Prog. Part. Nucl. Phys. \textbf{123} (2022) 103927. \href{https://arxiv.org/abs/2104.02565}{arXiv:2104.02565}
-  \item JUNO Coll., \emph{The Design and Technology Development of the JUNO Central Detector}, EPJ Plus \textbf{139} (2024) 1128. \href{https://arxiv.org/abs/2311.17314}{arXiv:2311.17314}
-  \item A.~Abusleme \textit{et al.}, \emph{Calibration strategy of the JUNO experiment}, JHEP 03 (2021) 004. \href{https://link.springer.com/article/10.1007/JHEP03(2021)004}{doi:10.1007/JHEP03(2021)004}
-\end{enumerate}
-
-\textbf{TAO (Taishan Antineutrino Observatory) та спектральне відображення}
-\begin{enumerate}
-  \item A.~Abusleme \textit{et al.} (JUNO-TAO), \emph{TAO Conceptual Design Report} (2020). \href{https://arxiv.org/abs/2005.08745}{arXiv:2005.08745}
-  \item F.~Capozzi, S.~J.~Parke, C.-A.~Ternes, \emph{Mapping reactor neutrino spectra from TAO to JUNO}, Phys. Rev. D \textbf{102} (2020) 056001. \href{https://doi.org/10.1103/PhysRevD.102.056001}{doi:10.1103/PhysRevD.102.056001}
-  \item (Схема TAO у слайдах) \emph{Instruments} \textbf{6}(4):50 (2022). \href{https://doi.org/10.3390/instruments6040050}{doi:10.3390/instruments6040050}
-\end{enumerate}
-
-\textbf{Фотосенсори/PMT та мас-тестування}
-\begin{enumerate}
-  \item B.~Wonsak \textit{et al.}, \emph{A container-based facility for testing 20\,000 20-inch PMTs for JUNO}, JINST \textbf{16} (2021) T08001. \href{https://arxiv.org/abs/2103.10193}{arXiv:2103.10193}
-  \item A.~Abusleme \textit{et al.}, \emph{Mass testing and characterization of 20-inch PMTs for JUNO}, Eur. Phys. J. C \textbf{82} (2022) 1168. \href{https://arxiv.org/abs/2205.08629}{arXiv:2205.08629}
-\end{enumerate}
-
-\textbf{Фізична чутливість (мас-ордеринг, геонейтрино)}
-\begin{enumerate}
-  \item D.~V.~Forero, S.~J.~Parke, C.-A.~Ternes, \emph{JUNO's prospects for determining the neutrino mass ordering}, Phys. Rev. D \textbf{104} (2021) 113004. \href{https://arxiv.org/abs/2107.12410}{arXiv:2107.12410}
-  \item R.~Han \textit{et al.}, \emph{Potential of geo-neutrino measurements at JUNO}, Chin. Phys. C \textbf{40} (2016) 033003. \href{https://arxiv.org/abs/1510.01523}{arXiv:1510.01523}
-\end{enumerate}
-
-\textbf{Джерела ілюстрацій / підписів}
-\begin{enumerate}
-  \item Xinhua News Agency: \emph{Update: China builds huge underground transparent sphere to trap ``ghost particles''} (Oct 11, 2024). \href{https://english.news.cn/20241011/7c1bdcf9e8fc4830a0027c7ab2f69aa0/c.html}{english.news.cn} \\
-        \textit{Усі підписи до фото на слайдах відтворені згідно з цією публікацією (автор фото: Jin Liwang).}
-  \item Схеми IBD/pES у слайдах: авторські/відкриті ілюстрації із зазначеною в слайдах атрибуцією (зокрема RG DOI \href{https://doi.org/10.13140/RG.2.2.18369.10080}{10.13140/RG.2.2.18369.10080}).
-\end{enumerate}
-
-\end{frame}
-
 
 \end{document}
