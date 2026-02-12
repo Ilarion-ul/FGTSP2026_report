@@ -1,34 +1,23 @@
 #!/usr/bin/env python3
-"""Create GIF animations for the presentation from simulation PNG frames.
+"""Prepare numbered PNG frame sequences for Beamer animategraphics.
 
-Outputs by default go to: generated_gifs/
-- plate_neutron_heatmap_W-Ta.gif
-- plate_neutron_heatmap_U-Mo.gif
-- beam_visualization_W-Ta.gif
-- beam_visualization_U-Mo.gif
+This replaces GIF generation and creates frame sets such as:
+- generated_gifs/beam_visualization_W-Ta_000.png ... _008.png
+- generated_gifs/beam_visualization_U-Mo_000.png ... _008.png
+- generated_gifs/plate_neutron_heatmap_W-Ta_000.png ... _006.png
+- generated_gifs/plate_neutron_heatmap_U-Mo_000.png ... _011.png
 """
 
 from __future__ import annotations
 
 import argparse
+import shutil
 from pathlib import Path
-from typing import Iterable
-
 
 TARGET_RUNS = {
     "W-Ta": Path("Data/20260211_172835_W-Ta"),
     "U-Mo": Path("Data/20260212_072836_U-Mo"),
 }
-
-
-def load_image(path: Path):
-    try:
-        from PIL import Image
-    except Exception as exc:  # pragma: no cover
-        raise RuntimeError(
-            "Pillow is required. Install with: pip install pillow"
-        ) from exc
-    return Image.open(path).convert("RGB")
 
 
 def collect_heatmap_frames(run_dir: Path) -> list[Path]:
@@ -50,91 +39,49 @@ def collect_beam_frames(run_dir: Path) -> list[Path]:
         "h2_neutron_exit_yz_side_x.png",
         "h2_neutron_exit_side_surface.png",
     ]
-    frames: list[Path] = []
-    for name in preferred:
-        p = run_dir / name
-        if p.exists():
-            frames.append(p)
-    return frames
+    return [run_dir / name for name in preferred if (run_dir / name).exists()]
 
 
-def write_gif(frame_paths: Iterable[Path], out_path: Path, duration_ms: int) -> None:
-    frame_paths = list(frame_paths)
-    if not frame_paths:
-        raise ValueError(f"No frames provided for GIF: {out_path}")
-
-    images = [load_image(p) for p in frame_paths]
-    first, rest = images[0], images[1:]
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    first.save(
-        out_path,
-        save_all=True,
-        append_images=rest,
-        duration=duration_ms,
-        loop=0,
-        optimize=False,
-    )
+def copy_sequence(frames: list[Path], out_prefix: Path, dry_run: bool) -> list[Path]:
+    created: list[Path] = []
+    out_prefix.parent.mkdir(parents=True, exist_ok=True)
+    for i, src in enumerate(frames):
+        dst = out_prefix.parent / f"{out_prefix.name}{i:03d}.png"
+        created.append(dst)
+        if not dry_run:
+            shutil.copy2(src, dst)
+    return created
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build GIFs used in presentation slides")
-    parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=Path("generated_gifs"),
-        help="Output directory for generated GIF files",
-    )
-    parser.add_argument(
-        "--duration-ms",
-        type=int,
-        default=350,
-        help="Frame duration in milliseconds",
-    )
-    parser.add_argument(
-        "--list",
-        action="store_true",
-        help="List discovered frame sets and planned outputs without creating GIFs",
-    )
+    parser = argparse.ArgumentParser(description="Build PNG frame sequences for Beamer animations")
+    parser.add_argument("--output-dir", type=Path, default=Path("generated_gifs"))
+    parser.add_argument("--dry-run", action="store_true", help="Show planned outputs only")
     args = parser.parse_args()
-
-    created: list[Path] = []
 
     for target, run_dir in TARGET_RUNS.items():
         if not run_dir.exists():
-            print(f"[skip] Missing run directory: {run_dir}")
+            print(f"[skip] missing run directory: {run_dir}")
             continue
 
-        heatmap_frames = collect_heatmap_frames(run_dir)
-        if heatmap_frames:
-            out = args.output_dir / f"plate_neutron_heatmap_{target}.gif"
-            if args.list:
-                print(f"[plan] {out} <- {len(heatmap_frames)} frames")
-            else:
-                write_gif(heatmap_frames, out, args.duration_ms)
-                created.append(out)
+        heatmap = collect_heatmap_frames(run_dir)
+        beam = collect_beam_frames(run_dir)
+
+        heatmap_out = args.output_dir / f"plate_neutron_heatmap_{target}_"
+        beam_out = args.output_dir / f"beam_visualization_{target}_"
+
+        created_h = copy_sequence(heatmap, heatmap_out, args.dry_run) if heatmap else []
+        created_b = copy_sequence(beam, beam_out, args.dry_run) if beam else []
+
+        if heatmap:
+            print(f"[ok] {target} heatmap frames: {len(created_h)} -> {heatmap_out}000...{len(created_h)-1:03d}.png")
         else:
-            print(f"[skip] No heatmap frames in {run_dir}")
+            print(f"[skip] no heatmap frames for {target}")
 
-        beam_frames = collect_beam_frames(run_dir)
-        if beam_frames:
-            out = args.output_dir / f"beam_visualization_{target}.gif"
-            if args.list:
-                print(f"[plan] {out} <- {len(beam_frames)} frames")
-            else:
-                write_gif(beam_frames, out, args.duration_ms)
-                created.append(out)
+        if beam:
+            print(f"[ok] {target} beam frames: {len(created_b)} -> {beam_out}000...{len(created_b)-1:03d}.png")
         else:
-            print(f"[skip] No beam visualization frames in {run_dir}")
-
-    if args.list:
-        return
-
-    if created:
-        print("Created GIF files:")
-        for path in created:
-            print(f" - {path}")
-    else:
-        print("No GIF files were created.")
+            print(f"[skip] no beam frames for {target}")
 
 
 if __name__ == "__main__":
