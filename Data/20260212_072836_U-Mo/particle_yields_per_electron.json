@@ -1,0 +1,12 @@
+{
+  "n_primary_electrons": 4e+06,
+  "neutron_entries": 106760,
+  "photon_entries": 6729989,
+  "neutrons_per_electron": 0.02669,
+  "photons_per_electron": 1.6825,
+  "neutrons_per_electron_from_run_summary": 0.0581687,
+  "photons_above5MeV_per_electron_from_run_summary": 3.92452,
+  "neutrons_model_exit_per_electron_from_run_summary": 0.0441775,
+  "neutrons_weighted_per_electron": 0.02669,
+  "photons_weighted_per_electron": 1.6825
+}
