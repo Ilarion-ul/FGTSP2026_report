@@ -179,32 +179,34 @@
 
 \begin{frame}{Geant4 implementation: beam and accelerator conditions}
 \small
+\centering
+\IfFileExists{images/Acselerator Blueprint.png}{
+  \includegraphics[width=\linewidth,height=0.34\textheight,keepaspectratio]{images/Acselerator Blueprint.png}
+}{
+  \fbox{\parbox[c][0.24\textheight][c]{0.94\linewidth}{\centering Placeholder: accelerator blueprint}}
+}
+
+{\scriptsize \textit{Caption:} Layout of linac and subcritical assembly.}\hfill
+{\scriptsize \textit{Source:} NSC KIPT status paper \citep{vodin2013nsc}.}
+
+\vspace{0.35em}
 \begin{columns}[T,totalwidth=\textwidth]
-\begin{column}{0.54\textwidth}
+\begin{column}{0.52\textwidth}
 \begin{itemize}
   \item Physics list optimized for hadronic and neutron transport in this energy range using Geant4 \citep{geant4}.
   \item Electron beam defined with realistic energy spread, spot size, and angular divergence.
 \end{itemize}
-\vspace{0.1em}
-{\footnotesize\begin{tabular}{@{}p{0.54\linewidth}p{0.40\linewidth}@{}}
+\end{column}
+\begin{column}{0.46\textwidth}
+{\footnotesize
+\begin{tabular}{@{}ll@{}}
 Beam energy & 100 MeV \\
 Relative energy spread & 1\% \\
 Transverse beam size ($\sigma_x,\sigma_y$) & 1 mm, 1 mm \\
 Angular divergence ($\sigma_{\theta x},\sigma_{\theta y}$) & 1 mrad, 1 mrad \\
 Operation mode & Continuous-wave, 100 kW average power
-\end{tabular}}
-\end{column}
-\begin{column}{0.44\textwidth}
-\centering
-\IfFileExists{images/Acselerator Blueprint.png}{
-  \includegraphics[width=\linewidth,height=0.36\textheight,keepaspectratio]{images/Acselerator Blueprint.png}
-}{
-  \fbox{\parbox[c][0.30\textheight][c]{0.94\linewidth}{\centering Placeholder: accelerator blueprint}}
+\end{tabular}
 }
-
-{\scriptsize \textit{Caption:} Layout of linac and subcritical assembly.}
-
-{\scriptsize \textit{Source:} NSC KIPT status paper \citep{vodin2013nsc}.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -431,8 +433,28 @@ Reference neutron flux (placeholder) & --- & ---
 
 \begin{frame}[allowframebreaks]{References}
 \tiny
-\bibliographystyle{apalike}
-\bibliography{references}
+\begin{thebibliography}{99}
+
+\bibitem[Agostinelli et~al.(2003)]{geant4}
+Agostinelli, S., et~al. (2003).
+\newblock Geant4---a simulation toolkit.
+\newblock \textit{Nuclear Instruments and Methods in Physics Research Section A}, 506(3), 250--303.
+
+\bibitem[Koning et~al.(2019)]{koning2019tendl}
+Koning, A. J., Rochman, D., Sublet, J.-C., Dzysiuk, N., Fleming, M., \& van der Marck, S. (2019).
+\newblock \textit{TENDL-2019: TALYS-based evaluated nuclear data library}.
+\newblock Nuclear Research and Consultancy Group (NRG).
+
+\bibitem[National Science Center Kharkiv Institute of Physics and Technology(2004)]{nsc-kipt-brochure-2004}
+National Science Center ``Kharkiv Institute of Physics and Technology'' (2004).
+\newblock \textit{Nuclear facility ``Neutron source based on a subcritical assembly driven by an electron accelerator''} [Brochure].
+
+\bibitem[Vodin et~al.(2013)]{vodin2013nsc}
+Vodin, A. N., Demchenko, P. A., Zelinsky, A. Yu., et~al. (2013).
+\newblock NSC KIPT neutron source status.
+\newblock \textit{Problems of Atomic Science and Technology}, 88(6), 3--9.
+
+\end{thebibliography}
 \end{frame}
 
 \end{document}
