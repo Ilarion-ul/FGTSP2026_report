@@ -62,7 +62,7 @@
 \begin{itemize}
   \item NSC KIPT is an \textbf{Accelerator-Driven System (ADS)} for neutron science.
   \item Mission: fundamental research, isotope production, and applied nuclear studies.
-  \item The facility combines a high-power electron LINAC with a subcritical assembly \citep{nsc-kipt-brochure-2004}.
+  \item The facility combines a high-power electron LINAC with a subcritical assembly \parencite{nsc-kipt-brochure-2004}.
 \end{itemize}
 \end{column}
 \begin{column}{0.56\textwidth}
@@ -75,7 +75,7 @@
 
 {\scriptsize \textit{Caption:} Model of the Neutron Source and the building where it is located.}
 
-{\scriptsize \textit{Source:} NSC KIPT brochure \citep{nsc-kipt-brochure-2004}.}
+{\scriptsize \textit{Source:} NSC KIPT brochure \parencite{nsc-kipt-brochure-2004}.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -87,7 +87,7 @@
 \begin{itemize}
   \item The project was developed in international collaboration with strong scientific and engineering support.
   \item Commissioning activities established the physical start-up baseline.
-  \item Current stage focuses on safe operation and data-informed optimization \citep{nsc-kipt-brochure-2004}.
+  \item Current stage focuses on safe operation and data-informed optimization \parencite{nsc-kipt-brochure-2004}.
 \end{itemize}
 \end{column}
 \begin{column}{0.56\textwidth}
@@ -100,7 +100,7 @@
 
 {\scriptsize \textit{Caption:} Detailed model of the Neutron Source.}
 
-{\scriptsize \textit{Source:} NSC KIPT brochure \citep{nsc-kipt-brochure-2004}.}
+{\scriptsize \textit{Source:} NSC KIPT brochure \parencite{nsc-kipt-brochure-2004}.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -115,7 +115,7 @@
     e^- \rightarrow \gamma \rightarrow (\gamma,n) \rightarrow n
   \]
   \item High-energy electrons generate bremsstrahlung photons in heavy target plates.
-  \item Photonuclear interactions produce primary neutrons with broad spectral distributions \citep{koning2019tendl}.
+  \item Photonuclear interactions produce primary neutrons with broad spectral distributions \parencite{koning2019tendl}.
 \end{itemize}
 \end{column}
 \begin{column}{0.70\textwidth}
@@ -138,7 +138,7 @@
   \fbox{\parbox[c][0.30\textheight][c]{0.46\linewidth}{\centering Placeholder: photonuclear spectrum (II)}}
 }
 
-{\scriptsize \textit{Source:} TENDL-2019 library \citep{koning2019tendl}.}
+{\scriptsize \textit{Source:} TENDL-2019 library \parencite{koning2019tendl}.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -153,7 +153,7 @@
   \[
     M=(1-k_{\mathrm{eff}})^{-1}.
   \]
-  \item Beam-off condition inherently terminates the fission chain \citep{vodin2013nsc}.
+  \item Beam-off condition inherently terminates the fission chain \parencite{vodin2013nsc}.
 \end{itemize}
 \end{column}
 \begin{column}{0.56\textwidth}
@@ -166,7 +166,7 @@
 
 {\scriptsize \textit{Caption:} 3D Subcritical assembly model.}
 
-{\scriptsize \textit{Source:} NSC KIPT status paper \citep{vodin2013nsc}.}
+{\scriptsize \textit{Source:} NSC KIPT status paper \parencite{vodin2013nsc}.}
 \end{column}
 \end{columns}
 \end{frame}
@@ -198,13 +198,13 @@
 }
 
 {\scriptsize \textit{Caption:} Layout of linac and subcritical assembly.}\hfill
-{\scriptsize \textit{Source:} NSC KIPT status paper \citep{vodin2013nsc}.}
+{\scriptsize \textit{Source:} NSC KIPT status paper \parencite{vodin2013nsc}.}
 
 \vspace{0.35em}
 \begin{columns}[T,totalwidth=\textwidth]
 \begin{column}{0.52\textwidth}
 \begin{itemize}
-  \item Physics list optimized for hadronic and neutron transport in this energy range using Geant4 \citep{geant4}.
+  \item Physics list optimized for hadronic and neutron transport in this energy range using Geant4 \parencite{geant4}.
   \item Electron beam defined with realistic energy spread, spot size, and angular divergence.
 \end{itemize}
 \end{column}
@@ -287,7 +287,7 @@ Neutron flux at model exit, n/s ($\times N_e/s$) & 1.3740e14 & 2.7716e14 \\
 Reference neutron flux (literature), n/s & $1.88\times10^{14}$ & $3.01\times10^{14}$
 \end{tabular}
 \end{center}
-\tiny Source: own Geant4 simulation results; literature reference values from \citep{vodin2013nsc_full} (U target: $3.01\times10^{14}$ n/s, W target: $1.88\times10^{14}$ n/s).
+\tiny Source: own Geant4 simulation results; literature reference values from \parencite{vodin2013nsc_full} (U target: $3.01\times10^{14}$ n/s, W target: $1.88\times10^{14}$ n/s).
 \end{frame}
 
 \begin{frame}{Photon spectra in the 4.5--30 MeV region}
@@ -463,33 +463,8 @@ Reference neutron flux (literature), n/s & $1.88\times10^{14}$ & $3.01\times10^{
 
 \begin{frame}[allowframebreaks]{References}
 \tiny
-\begin{thebibliography}{99}
-
-\bibitem[NSC ``Kharkiv Institute of Physics and Technology''(2004)]{nsc-kipt-brochure-2004}
-NSC ``Kharkiv Institute of Physics and Technology'' (2004).
-\newblock \textit{Nuclear facility ``Neutron source based on a subcritical assembly driven by an electron accelerator''} [Brochure].
-
-\bibitem[Koning et~al.(2019)]{koning2019tendl}
-Koning, A. J., Rochman, D., Sublet, J.-C., Dzysiuk, N., Fleming, M., and van der Marck, S. (2019).
-\newblock \textit{TENDL-2019: TALYS-based evaluated nuclear data library}.
-\newblock Nuclear Research and Consultancy Group (NRG).
-
-\bibitem[Vodin et~al.(2013a)]{vodin2013nsc}
-Vodin, A. N., Demchenko, P. A., Zelinsky, A. Yu., et~al. (2013).
-\newblock NSC KIPT neutron source status.
-\newblock \textit{Problems of Atomic Science and Technology}, 88(6), 3--9.
-
-\bibitem[Vodin et~al.(2013b)]{vodin2013nsc_full}
-Vodin, A. N., Demchenko, P. A., Zelinsky, A. Yu., Karnaukhov, I. M., Neklyudov, I. M., Peev, F. A., Pugachev, G. D., and Ushakov, I. V. (2013).
-\newblock NSC KIPT neutron source status.
-\newblock \textit{Problems of Atomic Science and Technology}, 88(6), 3--9.
-
-\bibitem[Agostinelli et~al.(2003)]{geant4}
-Agostinelli, S., et~al. (2003).
-\newblock Geant4---a simulation toolkit.
-\newblock \textit{Nuclear Instruments and Methods in Physics Research Section A}, 506(3), 250--303.
-
-\end{thebibliography}
+\printbibliography
 \end{frame}
+
 
 \end{document}
