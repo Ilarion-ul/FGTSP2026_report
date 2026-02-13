@@ -17,9 +17,7 @@
 \usepackage{multimedia}   % media embedding support in beamer
 \usepackage{siunitx}
 \sisetup{detect-all}
-\usepackage[backend=biber,style=authoryear]{biblatex}
-\addbibresource{references.bib}
-\newcommand{\citep}{\parencite}
+\usepackage[round,authoryear]{natbib}
 
 \title{Comparative Assessment of Spallation Target Materials}
 \subtitle{Neutron Source NSC KIPT: A Geant4 Simulation Study}
@@ -118,15 +116,21 @@
 \begin{column}{0.70\textwidth}
 \centering
 \IfFileExists{images/photonuclear_spectrum_1.png}{
-  \includegraphics[width=\linewidth,height=0.27\textheight,keepaspectratio]{images/photonuclear_spectrum_1.png}
+  \begin{minipage}[t]{0.495\linewidth}
+  \centering
+  \includegraphics[width=\linewidth,height=0.48\textheight,keepaspectratio]{images/photonuclear_spectrum_1.png}
+  \end{minipage}
 }{
-  \fbox{\parbox[c][0.16\textheight][c]{0.94\linewidth}{\centering Placeholder: photonuclear spectrum (I)}}
+  \fbox{\parbox[c][0.30\textheight][c]{0.46\linewidth}{\centering Placeholder: photonuclear spectrum (I)}}
 }
-
+\hfill
 \IfFileExists{images/photonuclear_spectrum_2.png}{
-  \includegraphics[width=\linewidth,height=0.27\textheight,keepaspectratio]{images/photonuclear_spectrum_2.png}
+  \begin{minipage}[t]{0.495\linewidth}
+  \centering
+  \includegraphics[width=\linewidth,height=0.48\textheight,keepaspectratio]{images/photonuclear_spectrum_2.png}
+  \end{minipage}
 }{
-  \fbox{\parbox[c][0.16\textheight][c]{0.94\linewidth}{\centering Placeholder: photonuclear spectrum (II)}}
+  \fbox{\parbox[c][0.30\textheight][c]{0.46\linewidth}{\centering Placeholder: photonuclear spectrum (II)}}
 }
 
 {\scriptsize \textit{Source:} TENDL-2019 library \citep{koning2019tendl}.}
@@ -256,10 +260,10 @@ Photons above 5 MeV per electron & 3.72338 & 3.92482 \\
 Total neutrons generated per electron & 0.0302579 & 0.0585394 \\
 Neutrons exiting model boundary per electron & 0.0220162 & 0.0444019 \\
 Neutron flux at model exit, n/s ($\times N_e/s$) & 1.3740e14 & 2.7716e14 \\
-Reference neutron flux (placeholder) & --- & ---
+Reference neutron flux (literature), n/s & $1.88\times10^{14}$ & $3.01\times10^{14}$
 \end{tabular}
 \end{center}
-\tiny Source: own Geant4 simulation results (run summaries and normalization $N_e/s = 6.24151\times10^{15}$).
+\tiny Source: own Geant4 simulation results; literature reference values from \citep{vodin2013nsc_full} (U target: $3.01\times10^{14}$ n/s, W target: $1.88\times10^{14}$ n/s).
 \end{frame}
 
 \begin{frame}{Photon spectra in the 4.5--30 MeV region}
@@ -435,7 +439,33 @@ Reference neutron flux (placeholder) & --- & ---
 
 \begin{frame}[allowframebreaks]{References}
 \tiny
-\printbibliography
+\begin{thebibliography}{99}
+
+\bibitem[NSC ``Kharkiv Institute of Physics and Technology''(2004)]{nsc-kipt-brochure-2004}
+NSC ``Kharkiv Institute of Physics and Technology'' (2004).
+\newblock \textit{Nuclear facility ``Neutron source based on a subcritical assembly driven by an electron accelerator''} [Brochure].
+
+\bibitem[Koning et~al.(2019)]{koning2019tendl}
+Koning, A. J., Rochman, D., Sublet, J.-C., Dzysiuk, N., Fleming, M., and van der Marck, S. (2019).
+\newblock \textit{TENDL-2019: TALYS-based evaluated nuclear data library}.
+\newblock Nuclear Research and Consultancy Group (NRG).
+
+\bibitem[Vodin et~al.(2013a)]{vodin2013nsc}
+Vodin, A. N., Demchenko, P. A., Zelinsky, A. Yu., et~al. (2013).
+\newblock NSC KIPT neutron source status.
+\newblock \textit{Problems of Atomic Science and Technology}, 88(6), 3--9.
+
+\bibitem[Vodin et~al.(2013b)]{vodin2013nsc_full}
+Vodin, A. N., Demchenko, P. A., Zelinsky, A. Yu., Karnaukhov, I. M., Neklyudov, I. M., Peev, F. A., Pugachev, G. D., and Ushakov, I. V. (2013).
+\newblock NSC KIPT neutron source status.
+\newblock \textit{Problems of Atomic Science and Technology}, 88(6), 3--9.
+
+\bibitem[Agostinelli et~al.(2003)]{geant4}
+Agostinelli, S., et~al. (2003).
+\newblock Geant4---a simulation toolkit.
+\newblock \textit{Nuclear Instruments and Methods in Physics Research Section A}, 506(3), 250--303.
+
+\end{thebibliography}
 \end{frame}
 
 \end{document}
