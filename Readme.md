@@ -37,3 +37,19 @@
     7) Слайд з h1_gas_h_plate  для двох мішеней
     8) Слайд з h1_gas_he_plate для двох мішеней
     9) Слайд з h1_niel_plate для двох мішеней
+
+## Збірка презентації (Biber)
+Щоб посилання/цитування в слайдах відображались коректно, потрібна повна послідовність компіляції:
+
+```bash
+make pdf
+```
+
+Або вручну:
+
+```bash
+xelatex -interaction=nonstopmode -halt-on-error main.tex
+biber main
+xelatex -interaction=nonstopmode -halt-on-error main.tex
+xelatex -interaction=nonstopmode -halt-on-error main.tex
+```
