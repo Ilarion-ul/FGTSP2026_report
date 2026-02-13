@@ -17,9 +17,14 @@
 \usepackage{multimedia}   % media embedding support in beamer
 \usepackage{siunitx}
 \sisetup{detect-all}
-\usepackage[round,authoryear]{natbib}
+\usepackage[
+  backend=biber,
+  style=authoryear,   % або numeric
+  sorting=nyt
+]{biblatex}
+\addbibresource{references.bib}
 
-\title{Comparative Assessment of Spallation Target Materials}
+\title{Comparative Assessment of Target Materials}
 \subtitle{Neutron Source NSC KIPT: A Geant4 Simulation Study}
 \author{Ilarion Ulych\\\small 2nd-year Master's student\\\small Tutor: Revaz Shanidze}
 \institute{Taras Shevchenko National University of Kyiv}
@@ -115,19 +120,19 @@
 \end{column}
 \begin{column}{0.70\textwidth}
 \centering
-\IfFileExists{images/photonuclear_spectrum_1.png}{
-  \begin{minipage}[t]{0.495\linewidth}
+\IfFileExists{images/photonuclear_spectrum_U.png}{
+  \begin{minipage}[t]{1\linewidth}
   \centering
-  \includegraphics[width=\linewidth,height=0.48\textheight,keepaspectratio]{images/photonuclear_spectrum_1.png}
+  \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{images/photonuclear_spectrum_U.png}
   \end{minipage}
 }{
   \fbox{\parbox[c][0.30\textheight][c]{0.46\linewidth}{\centering Placeholder: photonuclear spectrum (I)}}
 }
 \hfill
-\IfFileExists{images/photonuclear_spectrum_2.png}{
-  \begin{minipage}[t]{0.495\linewidth}
+\IfFileExists{images/photonuclear_spectrum_W.png}{
+  \begin{minipage}[t]{1\linewidth}
   \centering
-  \includegraphics[width=\linewidth,height=0.48\textheight,keepaspectratio]{images/photonuclear_spectrum_2.png}
+  \includegraphics[width=\linewidth,height=0.78\textheight,keepaspectratio]{images/photonuclear_spectrum_W.png}
   \end{minipage}
 }{
   \fbox{\parbox[c][0.30\textheight][c]{0.46\linewidth}{\centering Placeholder: photonuclear spectrum (II)}}
@@ -223,13 +228,16 @@ Operation mode & CW, 100 kW average power
 \begin{column}{0.49\textwidth}
 \textbf{W-Ta target (7 plates, startup configuration)}
 \begin{itemize}
-  \item 7 square W plates; active cross-section: \SI{65.8x65.8}{mm} (\(\sim\)\SI{66x66}{mm} with cladding).
+  \item 7 square W plates; active cross-section:
+        \SI{65.8}{mm}\,\(\times\)\,\SI{65.8}{mm}
+        (\(\sim\)\SI{66}{mm}\,\(\times\)\,\SI{66}{mm} with cladding).
   \item Plate thickness profile (mm): 2.5, 2.5, 2.47, 3.53, 3.58, 5.55, 9.5.
-  \item Ta cladding: \(\sim\)0.25--0.27 mm with Ti interlayer: 30--40 \(\mu\)m.
-  \item Inter-plate water gaps: 1.75--2.0 mm.
-  \item SAV-1 Al-alloy square housing: inner \SI{66x66}{mm}, wall \SI{2}{mm}.
+  \item Ta cladding: \(\sim\)\SI{0.25}{mm}--\SI{0.27}{mm} with Ti interlayer: \SI{30}{\micro\metre}--\SI{40}{\micro\metre}.
+  \item Inter-plate water gaps: \SI{1.75}{mm}--\SI{2.0}{mm}.
+  \item SAV-1 Al-alloy square housing: inner \SI{66}{mm}\(\times\)\SI{66}{mm}, wall \SI{2}{mm}.
 \end{itemize}
 \end{column}
+
 \begin{column}{0.49\textwidth}
 \textbf{U--7\%Mo target (12 plates, high-flux option)}
 \begin{itemize}
@@ -239,16 +247,16 @@ Operation mode & CW, 100 kW average power
     \item 2.5, 2.5, 2.5, 2.5, 3.0, 3.0,
     \item 4.0, 5.0, 7.0, 10.0, 14.0, 22.5.
   \end{itemize}
-  \item Cladding \(\sim\)0.7--1.0 mm (design/manufacturing dependent).
-  \item Variable cooling gaps: 1.0, 1.75, and 3.0 mm.
-  \item Integral neutron yield reference: \(3.28\times10^{14}\) n/s.
+  \item Cladding \(\sim\)\SI{0.7}{mm}--\SI{1.0}{mm} (design/manufacturing dependent).
+  \item Variable cooling gaps: \SI{1.0}{mm}, \SI{1.75}{mm}, and \SI{3.0}{mm}.
 \end{itemize}
 \end{column}
 \end{columns}
 
 \vspace{0.2em}
-\footnotesize Common elements: \textbf{2 mm Al entrance window} and \textbf{237 mm He chamber} behind the plate stack to displace water and increase useful neutron flux to the subcritical zone.
+\footnotesize Common elements: \textbf{\SI{2}{mm} Al entrance window} and \textbf{\SI{237}{mm} He chamber} behind the plate stack to displace water and increase useful neutron flux to the subcritical zone.
 \end{frame}
+
 
 \begin{frame}{Beam--target interaction visualization}
 \small
