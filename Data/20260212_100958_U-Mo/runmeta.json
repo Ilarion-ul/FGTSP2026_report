@@ -1,0 +1,29 @@
+{
+  "target_type": "U-Mo",
+  "geometry": {"plate_thicknesses_mm":[2.5,2.5,2.5,2.5,3,3,4,5,7,10,14,22.5],"plate_xy_mm":64,"water_gap_mm":2,"clad_ta_mm":0.25,"buffer_ti_mm":0.04,"assembly_thickness_mm":120,"clad_thickness_front_mm":0.95,"clad_thickness_rest_mm":0.7,"gap_inout_mm":1,"gap_mid_mm":1.75,"housing_inner_xy_mm":66,"housing_wall_mm":2,"entrance_window_mm":2,"helium_chamber_len_mm":237,"u7mo_density_g_cm3":17,"fill_medium_in_target":"water"},
+  "beam": {
+    "energy_MeV": 100,
+    "energy_sigma_rel": 0.01,
+    "sigma_x_mm": 1,
+    "sigma_y_mm": 1,
+    "sigma_theta_x_mrad": 1,
+    "sigma_theta_y_mrad": 1
+  },
+  "pulse": {
+    "mode": "cw",
+    "pulse_width_us": 2.7,
+    "rep_rate_Hz": 625,
+    "I_pulse_A": 0.6,
+    "I_avg_A": 0.001,
+    "duty": 0.0016875,
+    "P_avg_kW": 100
+  },
+  "run": {
+    "nEvents": 10000000,
+    "nThreads": 28
+  },
+  "normalization": {
+    "per_primary": 1,
+    "N_e_per_s": 6.24151e+15
+  }
+}

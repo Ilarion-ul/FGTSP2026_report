@@ -25,7 +25,7 @@
 \date{\today}
 
 % Prefer new U-Mo dataset when available; fallback keeps compatibility.
-\newcommand{\WTaDir}{Data/20260211_172835_W-Ta}
+\newcommand{\WTaDir}{Data/20260212_140400_W-Ta}
 \IfFileExists{Data/20260212_100958_U-Mo/runmeta.json}{
   \newcommand{\UMoDir}{Data/20260212_100958_U-Mo}
 }{
@@ -59,8 +59,8 @@
 \vspace{0.3em}
 \begin{figure}
 \centering
-\IfFileExists{images/nsc_kipt_facility_model.png}{
-  \includegraphics[width=0.76\linewidth]{images/nsc_kipt_facility_model.png}
+\IfFileExists{images/nsc_kipt_facility_model1.jpg}{
+  \includegraphics[width=0.76\linewidth]{images/nsc_kipt_facility_model1.jpg}
 }{
   \fbox{\parbox[c][0.30\textheight][c]{0.76\linewidth}{\centering Placeholder: facility model image}}
 }
@@ -79,8 +79,8 @@
 \vspace{0.2em}
 \begin{figure}
 \centering
-\IfFileExists{images/nsc_kipt_facility_photo.png}{
-  \includegraphics[width=0.86\linewidth]{images/nsc_kipt_facility_photo.png}
+\IfFileExists{images/nsc_kipt_facility_model2.jpg}{
+  \includegraphics[width=0.86\linewidth]{images/nsc_kipt_facility_model2.jpg}
 }{
   \fbox{\parbox[c][0.30\textheight][c]{0.86\linewidth}{\centering Placeholder: large facility photograph}}
 }
@@ -139,8 +139,8 @@
 \end{itemize}
 \begin{figure}
 \centering
-\IfFileExists{images/subcritical_assembly_model.png}{
-  \includegraphics[width=0.72\linewidth]{images/subcritical_assembly_model.png}
+\IfFileExists{images/ADScore.jpg}{
+  \includegraphics[width=0.72\linewidth]{images/ADScore.jpg}
 }{
   \fbox{\parbox[c][0.26\textheight][c]{0.72\linewidth}{\centering Placeholder: subcritical assembly model image}}
 }
@@ -205,11 +205,14 @@ Operation mode & Continuous-wave, 100 kW average power
 \begin{frame}{Beam--target interaction visualization}
 \small
 \begin{center}
-\fbox{\parbox[c][0.34\textheight][c]{0.86\linewidth}{\centering Placeholder: single animation of beam--target interaction\\(sequence of PNG frames will be inserted here)}}
+\begin{figure}[h]
+\centering
+  \animategraphics[loop,autoplay,controls,width=\linewidth]{2}{frames_animate/frame_}{0001}{0024}
+\end{figure}
 \end{center}
 \vspace{-0.2em}
 \begin{center}
-\footnotesize Figure: dynamic evolution of beam energy deposition and neutron generation.
+\footnotesize Figure: Geant4 simulation visualization.
 \end{center}
 \tiny Source: own Geant4 simulation results.
 \end{frame}
@@ -371,13 +374,13 @@ High-energy photons ($E>5$ MeV) & 3.72382 & 3.92452
 \small
 \begin{center}
 \IfFileExists{\WTaDir/plate_neutron_heatmap_1.png}{
-  \animategraphics[loop,autoplay,width=0.48\linewidth]{8}{\WTaDir/plate_neutron_heatmap_}{1}{7}
+  \animategraphics[loop,autoplay,width=0.48\linewidth]{1}{\WTaDir/plate_neutron_heatmap_}{1}{7}
 }{
   \fbox{\parbox[c][0.28\textheight][c]{0.46\linewidth}{\centering Placeholder: heatmap frame sequence (W-Ta)}}
 }
 \hfill
 \IfFileExists{\UMoDir/plate_neutron_heatmap_1.png}{
-  \animategraphics[loop,autoplay,width=0.48\linewidth]{8}{\UMoDir/plate_neutron_heatmap_}{1}{12}
+  \animategraphics[loop,autoplay,width=0.48\linewidth]{1}{\UMoDir/plate_neutron_heatmap_}{1}{12}
 }{
   \fbox{\parbox[c][0.28\textheight][c]{0.46\linewidth}{\centering Placeholder: heatmap frame sequence (U-Mo)}}
 }
